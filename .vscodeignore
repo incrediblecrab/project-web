@@ -1,0 +1,13 @@
+.vscode/**
+.vscode-test/**
+src/**
+.gitignore
+tsconfig.json
+**/*.map
+**/*.ts
+node_modules/**
+test-features.md
+.DS_Store
+.env
+.env.local
+!media/cytoscape.min.js

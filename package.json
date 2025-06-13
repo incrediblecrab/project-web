@@ -1,0 +1,82 @@
+{
+  "name": "projectweb",
+  "displayName": "Project Web",
+  "description": "Visualize your workspace file structure as an interactive spiderweb graph",
+  "version": "1.0.1",
+  "publisher": "maxs-lab-of-things",
+  "homepage": "https://mlot.ai",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "graph",
+    "visualization",
+    "file",
+    "tree",
+    "spiderweb"
+  ],
+  "icon": "icon.png",
+  "activationEvents": [
+    "onCommand:projectweb.showFolderGraph"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "projectweb.showFolderGraph",
+        "title": "Show Folder Graph"
+      }
+    ],
+    "configuration": {
+      "title": "Project Web",
+      "properties": {
+        "projectweb.maxDepth": {
+          "type": "number",
+          "default": 4,
+          "description": "Maximum folder depth to scan"
+        },
+        "projectweb.maxNodes": {
+          "type": "number",
+          "default": 500,
+          "description": "Maximum number of nodes to display"
+        },
+        "projectweb.excludePatterns": {
+          "type": "array",
+          "default": [
+            "node_modules",
+            ".git",
+            ".vscode",
+            "dist",
+            "out"
+          ],
+          "description": "Folder patterns to exclude from the graph"
+        },
+        "projectweb.fileExtensions": {
+          "type": "array",
+          "default": [],
+          "description": "Filter files by extensions (empty shows all)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "typescript": "^4.9.3"
+  }
+}
