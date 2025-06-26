@@ -71,6 +71,10 @@ For large projects:
 - VS Code 1.74.0 or higher
 - No external dependencies required
 
+## Author
+
+Max Marquardt | [mlot.ai](https://mlot.ai)
+
 ## License
 
 MIT
