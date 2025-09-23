@@ -1,6 +1,11 @@
 # Project Web - VS Code Extension
 
+![Version](https://img.shields.io/visual-studio-marketplace/v/maxs-lab-of-things.projectweb)
+![MLoT](https://img.shields.io/badge/MLoT-ai-blue)
+
 Visualize your workspace file structure as an interactive spiderweb graph directly in VS Code.
+
+![Demo](https://raw.githubusercontent.com/incrediblecrab/Packages-and-Extensions-Media/main/project-web.gif)
 
 ## Features
 
@@ -71,9 +76,16 @@ For large projects:
 - VS Code 1.74.0 or higher
 - No external dependencies required
 
-## Author
+## Resources
 
-Max Marquardt | [mlot.ai](https://mlot.ai)
+- 📺 [Watch Demo Video](https://youtu.be/85x_4uAXccw)
+- 🌐 [Visit MLoT Page](https://mlot.ai/project-web/)
+- 🔒 [Privacy Policy](https://mlot.ai/privacy)
+
+## Publisher
+
+**Max's Lab of Things**
+Visit [mlot.ai](https://mlot.ai/)
 
 ## License
 
