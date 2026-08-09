@@ -1,4 +1,4 @@
-# Project Web - VS Code Extension
+# Project Web
 
 ![Version](https://img.shields.io/visual-studio-marketplace/v/maxs-lab-of-things.projectweb)
 ![MLoT](https://img.shields.io/badge/MLoT-ai-blue)
