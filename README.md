@@ -5,7 +5,7 @@
 
 Visualize your workspace file structure as an interactive spiderweb graph directly in VS Code.
 
-![Demo](https://raw.githubusercontent.com/incrediblecrab/Packages-and-Extensions-Media/main/project-web.gif)
+![Demo](https://raw.githubusercontent.com/incrediblecrab/Packages-and-Extensions-Media/main/gifs/project-web.gif)
 
 ## Features
 
