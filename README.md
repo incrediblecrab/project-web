@@ -1,49 +1,50 @@
-# Project Web
+# project-web
 
-![Version](https://img.shields.io/visual-studio-marketplace/v/maxs-lab-of-things.projectweb)
-![MLoT](https://img.shields.io/badge/MLoT-ai-blue)
+![Version](https://img.shields.io/visual-studio-marketplace/v/maxs-lab-of-things.projectweb) ![MLoT](https://img.shields.io/badge/MLoT-ai-blue)
 
-Visualize your workspace file structure as an interactive spiderweb graph directly in VS Code.
+Project Web is a VS Code extension that visualizes the current workspace as an interactive Cytoscape.js folder graph. It is published on the VS Code Marketplace as [`maxs-lab-of-things.projectweb`](https://marketplace.visualstudio.com/items?itemName=maxs-lab-of-things.projectweb); the Marketplace version is 1.5.1, matching this repository.
 
 ![Demo](https://raw.githubusercontent.com/incrediblecrab/mlot-developer-media/main/gifs/project-web.gif)
 
-## Features
+**Objective:** help a developer inspect a workspace's file and folder shape through a local graph view with search, layout, filter and export controls.
 
-- **Interactive Graph Visualization**: View your project structure as a beautiful, interactive graph using Cytoscape.js
-- **Multiple Layout Options**: Choose from 6 layouts - Force-directed, Tree, Circle, Grid, Concentric, and Dagre
-- **File Navigation**: Click on any file node to instantly open it in the VS Code editor
-- **Advanced Search**: Search for files with navigation arrows to cycle through results
-- **Theme Customization**: Customize node colors, font colors, background color, and font size
-- **Flexible Filtering**: Filter by file names, folder names, extensions, and patterns
-- **Export Options**: Export your graph as SVG, PNG, or JSON
-- **Performance Optimized**: Smart filtering and depth limits for handling large projects
-- **Fully Local**: Runs entirely on your machine with no external dependencies or internet connection required
-- **VS Code Theme Integration**: Respects your VS Code theme (light/dark mode)
+**Inputs:** VS Code 1.74.0 or newer and an open workspace folder. The extension scans local file and folder names; the webview stores its UI settings in webview `localStorage`.
+
+**Files:**
+
+- [`src/extension.ts`](src/extension.ts): command registration, workspace scan setup and webview message handling
+- [`src/treeScanner.ts`](src/treeScanner.ts): recursive folder scan and filtering logic
+- [`media/`](media/): Cytoscape.js bundle, graph UI script and styles
+- [`package.json`](package.json): extension manifest, Marketplace metadata, command, settings and scripts
+- [`CHANGELOG.md`](CHANGELOG.md): release notes
+- [`tsconfig.json`](tsconfig.json): TypeScript compiler settings
+
+**Try it:** install with `ext install maxs-lab-of-things.projectweb`, open a workspace and run **Project Web: Show Folder Graph** from the Command Palette.
 
 ## Usage
 
-1. Open the Command Palette (`Cmd+Shift+P` on macOS, `Ctrl+Shift+P` on Windows/Linux)
-2. Run the command "Project Web: Show Folder Graph"
-3. Interact with your project structure:
-   - **Click and drag** to pan around the graph
-   - **Scroll** to zoom in/out
-   - **Click file nodes** (circles) to open files in VS Code
-   - **Search** for files using the search bar (top-left)
-   - Use **navigation arrows** to cycle through search results
-   - Click **Visuals** to change layouts (Force-directed, Tree, Circle, Grid, Concentric, Dagre)
-   - Click **Export** to save as SVG, PNG, or JSON
-   - Click **Settings** to customize filters, colors, and appearance
+Run **Project Web: Show Folder Graph**. The extension scans the first workspace folder and opens a webview graph where folders are rounded rectangles, files are circles and edges show parent-child relationships.
 
-## Configuration
+In the graph, drag to pan, scroll to zoom and click a file node to open that file in VS Code. Use search to find files and folders, then use the previous and next buttons to move through matches.
 
-Configure Project Web through VS Code settings:
+The Visuals panel can switch layouts among force-directed, tree, circle, grid, concentric and dagre-style tree layout. The Settings panel changes scan depth, node limit, file extensions, include and exclude file names, include and exclude folders, and graph colors. The Export panel saves SVG, PNG or JSON from the current graph.
 
-- `projectweb.maxDepth` (default: 4) - Maximum folder depth to scan
-- `projectweb.maxNodes` (default: 500) - Maximum number of nodes to display
-- `projectweb.excludePatterns` (default: ["node_modules", ".git", ".vscode", "dist", "out"]) - Folders to exclude
-- `projectweb.fileExtensions` (default: []) - Filter by file extensions (empty shows all files)
+## Command and settings
 
-## Example Configuration
+| Contribution | Identifier | What it does |
+| --- | --- | --- |
+| Command | `projectweb.showFolderGraph` | scans the first workspace folder and opens the folder graph webview |
+
+| Setting | Default | What it controls |
+| --- | --- | --- |
+| `projectweb.maxDepth` | `4` | maximum folder depth contributed in the manifest |
+| `projectweb.maxNodes` | `500` | maximum node count contributed in the manifest |
+| `projectweb.excludePatterns` | `["node_modules", ".git", ".vscode", "dist", "out"]` | folder names or `*` patterns skipped by the scanner |
+| `projectweb.fileExtensions` | `[]` | file extension filter; empty means all files |
+
+The current command implementation supplies its own default `maxNodes` value of `1000` when opening the webview. The manifest still contributes `500` as the VS Code Settings default.
+
+Example `settings.json`:
 
 ```json
 {
@@ -54,39 +55,22 @@ Configure Project Web through VS Code settings:
 }
 ```
 
-## Visual Overview
+## Scanner behavior
 
-The extension creates an interactive graph where:
-- **Blue rectangles** represent folders
-- **Green circles** represent files
-- **Lines** show the parent-child relationships
-- **Hover** over nodes to see full names
-- **Click** files to open them instantly
+The scanner stops when it passes the configured depth or reaches the configured node limit. `excludePatterns` skip folder names before scanning, extension filters accept entries with or without a leading dot, and the webview Settings panel can add include and exclude lists for exact file and folder names.
 
-## Performance Tips
+## Development
 
-For large projects:
-1. Reduce `maxDepth` to limit scanning depth
-2. Add common build/dependency folders to `excludePatterns`
-3. Use `fileExtensions` to show only relevant files
-4. Lower `maxNodes` if the graph becomes too dense
+The repository includes the scripts `npm run compile`, `npm run watch`, `npm run lint`, `npm run test` and `npm run vscode:prepublish`. The extension entry point is configured as `./out/extension.js`.
 
-## Requirements
+## Links
 
-- VS Code 1.74.0 or higher
-- No external dependencies required
-
-## Resources
-
-- 📺 [Watch Demo Video](https://youtu.be/85x_4uAXccw)
-- 🌐 [Visit MLoT Page](https://mlot.ai/project-web/)
-- 🔒 [Privacy Policy](https://mlot.ai/privacy)
-
-## Publisher
-
-**Max's Lab of Things**
-Visit [mlot.ai](https://mlot.ai/)
+- [Marketplace listing](https://marketplace.visualstudio.com/items?itemName=maxs-lab-of-things.projectweb)
+- [Demo video](https://youtu.be/85x_4uAXccw)
+- [MLoT product page](https://mlot.ai/project-web/)
+- [Privacy policy](https://mlot.ai/privacy)
+- Publisher: [Max's Lab of Things](https://mlot.ai/)
 
 ## License
 
-MIT
+MIT. See [`LICENSE`](LICENSE).
