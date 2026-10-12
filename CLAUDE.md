@@ -1,42 +1,24 @@
-# Project Web - VS Code Extension
+# CLAUDE.md
 
-## Project Overview
-A VS Code extension that visualizes workspace file structure as an interactive spiderweb graph using Cytoscape.js. Provides a unique way to explore and understand project architecture through graph visualization.
+This file provides guidance to Claude Code (claude.ai/code) and GitHub Copilot CLI when working in this repository.
 
-## Technology Stack
-- TypeScript
-- VS Code Extension API
-- Cytoscape.js for graph visualization
-- Custom CSS styling
-
-## Architecture
-- `src/extension.ts` - Main extension entry point
-- `src/treeScanner.ts` - File system scanning and tree traversal
-- `media/` - Static assets (Cytoscape.js, graph.js, styles)
-
-## Key Features
-- Interactive spiderweb-style graph visualization
-- Configurable scan depth and node limits
-- Customizable file exclusion patterns
-- File extension filtering
-- Real-time workspace analysis
-
-## Development Commands
-- `npm run compile` - Compile TypeScript
-- `npm run watch` - Watch for changes and recompile
-- `npm run lint` - Run ESLint
-- `npm run test` - Run tests
-- `npm run vscode:prepublish` - Prepare for publishing
-
-## Configuration
-The extension provides several configuration options:
-- `projectweb.maxDepth` - Maximum folder depth to scan (default: 4)
-- `projectweb.maxNodes` - Maximum number of nodes to display (default: 500)
-- `projectweb.excludePatterns` - Folder patterns to exclude (default: node_modules, .git, .vscode, dist, out)
-- `projectweb.fileExtensions` - Filter files by extensions (empty shows all)
+Project Web is a VS Code extension that draws the workspace's folder structure as an interactive Cytoscape.js graph in a webview. The folder and repository are `project-web`, but the Marketplace extension is `maxs-lab-of-things.projectweb` (no hyphen). The repository is public.
 
 ## Commands
-- `projectweb.showFolderGraph` - Show the interactive folder graph visualization
 
-## Usage
-Right-click in the VS Code Explorer and select "Show Folder Graph" to generate an interactive visualization of your project structure.
+```bash
+npm run compile      # tsc -p ./ -> out/
+npm run watch
+npm run lint         # eslint src --ext ts
+npx vsce package     # read the printed file list before publishing
+```
+
+Run the extension with F5 from VS Code and invoke "Show Folder Graph" from the Command Palette; it has no Explorer menu entry. `npm test` points at `out/test/runTest.js`, which does not exist, so it fails after compiling and linting.
+
+## Structure
+
+`projectweb.showFolderGraph` in `src/extension.ts` reads the four `projectweb.*` settings, calls `src/treeScanner.ts` to walk the workspace into `GraphData` (nodes and edges, capped by `maxDepth` and `maxNodes`, skipping `excludePatterns`), and builds the webview HTML in `getWebviewContent`. The graph data is inlined into the page as a `graphData` constant; the page then loads `media/cytoscape.min.js` (vendored, no npm dependency), `media/graph.js` (layout and interaction) and `media/style.css` through `asWebviewUri`. Changing the data shape means changing `treeScanner.ts` and `media/graph.js` together; the media files are plain JavaScript and are not compiled.
+
+## Releasing
+
+`media/` must ship, so never exclude it in `.vscodeignore`, which is the only control over what goes in the `.vsix` (`vsce` ignores `.gitignore`). The managed block in `.vscodeignore` is rewritten by a standardizing script, so add project-specific exclusions outside it. The README states the Marketplace version, so bump it with `package.json` and `CHANGELOG.md`. The publishing procedure is in `../README.md`.
